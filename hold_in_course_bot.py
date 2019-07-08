@@ -3,7 +3,7 @@ import os
 import sys
 import config
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Sticker
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 
 logging.basicConfig(level=logging.INFO,
@@ -17,15 +17,15 @@ TOKEN = os.getenv("TOKEN")
 if mode == "dev":
     def run(updater):
         updater.start_polling()
-# elif mode == "prod":
-#     def run(updater):
-#         PORT = int(os.environ.get("PORT", "8443"))
-#         HOLD_IN_COURSE_BOT = os.environ.get("HOLD_IN_COURSE_BOT")
-#         updater.start_webhook(listen="0.0.0.0",
-#                               port=PORT,
-#                               url_path=TOKEN)
-#         updater.bot.set_webhook(f"https://{HOLD_IN_COURSE_BOT}."
-#                                 f"herokuapp.com/{TOKEN}")
+elif mode == "prod":
+    def run(updater):
+        PORT = int(os.environ.get("PORT", "8443"))
+        APP_NAME = os.environ.get("APP_NAME")
+        updater.start_webhook(listen="0.0.0.0",
+                              port=PORT,
+                              url_path=TOKEN)
+        updater.bot.set_webhook(f"https://{APP_NAME}."
+                                f"herokuapp.com/{TOKEN}")
 else:
     sys.exit(1)
 
@@ -37,7 +37,7 @@ def start_handler(bot, update):
         update.message.reply_text("Стэй виз ми, мя зя " + config.orange_heart)
     else:
         update.message.reply_text(f"Приветики, "
-                                  f"{update.effective_user['username']}!")
+                                  f"{update.message.from_user.first_name}!")
 
 
 def sss_handler(bot, update):
@@ -50,6 +50,8 @@ def sss_handler(bot, update):
         reply_markup = InlineKeyboardMarkup(keyboard)
 
         update.message.reply_text("уляля :з", reply_markup=reply_markup)
+    else:
+        update.message.reply_text("SSSsssSSS")
 
 
 def sss_callback(bot, update):
