@@ -19,7 +19,7 @@ if mode == "dev":
         updater.start_polling()
 elif mode == "prod":
     def run(updater):
-        PORT = int(os.environ.get("PORT", "8443"))
+        PORT = int(os.environ.get("PORT", 17995))
         APP_NAME = os.environ.get("APP_NAME")
         updater.start_webhook(listen="0.0.0.0",
                               port=PORT,
