@@ -3,7 +3,7 @@ import os
 import sys
 import config
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Sticker
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 
 logging.basicConfig(level=logging.INFO,
@@ -20,11 +20,11 @@ if mode == "dev":
 elif mode == "prod":
     def run(updater):
         PORT = int(os.environ.get("PORT", 17995))
-        APP_NAME = os.environ.get("APP_NAME")
+        HOLD_IN_COURSE_BOT = os.environ.get("HOLD_IN_COURSE_BOT")
         updater.start_webhook(listen="0.0.0.0",
                               port=PORT,
                               url_path=TOKEN)
-        updater.bot.set_webhook(f"https://{APP_NAME}."
+        updater.bot.set_webhook(f"https://{HOLD_IN_COURSE_BOT}."
                                 f"herokuapp.com/{TOKEN}")
 else:
     sys.exit(1)
